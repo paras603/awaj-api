@@ -25,7 +25,7 @@ class PostsController extends Controller
     public function allPosts()
     {
         return PostsResource::collection(
-            Post::all()
+            Post::paginate(15)
         );
     }
 
