@@ -22,6 +22,13 @@ class PostsController extends Controller
         );
     }
 
+    public function allPosts()
+    {
+        return PostsResource::collection(
+            Post::all()
+        );
+    }
+
     /**
      * Show the form for creating a new resource.
      */
