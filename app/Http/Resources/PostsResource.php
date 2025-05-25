@@ -25,8 +25,8 @@ class PostsResource extends JsonResource
             ],
             'relationships' => [
                 'id' => (string)$this->user->id,
-                'user name' => $this->user->username,
-                'user email' => $this->user->email,
+                'user_name' => $this->user->username,
+                'user_email' => $this->user->email,
             ]
         ];
     }
