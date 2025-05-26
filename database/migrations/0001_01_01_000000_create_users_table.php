@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_type_id')->unique();
-            $table->foreign('user_type_id')->references('id')->on('user_types');
+//            $table->foreign('user_type_id')->references('id')->on('user_types');
             $table->integer('aura')->default(0);
             $table->string('username')->unique();
             $table->string('email')->unique();

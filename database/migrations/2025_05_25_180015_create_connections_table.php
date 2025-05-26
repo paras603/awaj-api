@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('connections', function (Blueprint $table) {
-            $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('follower_id');
             $table->foreign('user_id')
@@ -22,6 +21,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('users');
             $table->timestamps();
+            $table->primary(['user_id', 'follower_id']);
         });
     }
 
