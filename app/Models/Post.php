@@ -13,6 +13,7 @@ class Post extends Model
         'user_id', 'content', 'upvote', 'downvote'
     ];
 
+    //default values for these attributes
     protected $attributes = [
         'upvote' => 0,
         'downvote' => 0

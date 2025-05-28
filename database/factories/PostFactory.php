@@ -2,11 +2,11 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
+use App\Models\Post;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
  */
 class PostFactory extends Factory
 {
@@ -15,13 +15,13 @@ class PostFactory extends Factory
      *
      * @return array<string, mixed>
      */
+
+    protected $model = Post::class;
+
     public function definition(): array
     {
         return [
-            'user_id' => User::all()->random()->id,
-            'content' => $this->faker->text(200),
-            'upvote' => $this->faker->numberBetween(0,100),
-            'downvote' =>  $this->faker->numberBetween(0,50),
+            //
         ];
     }
 }
