@@ -3,7 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Cassandra\Type\UserType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -20,9 +22,12 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'user_type_id',
+        'aura',
         'username',
         'email',
         'password',
+        'bio',
     ];
 
     /**
@@ -48,9 +53,22 @@ class User extends Authenticatable
         ];
     }
 
+    public function userType(): BelongsTo
+    {
+        return $this->belongsTo(UserType::class);
+    }
+
     public function posts(): HasMany{
         return $this->hasMany(Post::class);
     }
 
+    public function activityFeed(): HasMany
+    {
+        return $this->hasMany(ActivityFeeds::class);
+    }
 
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comments::class);
+    }
 }

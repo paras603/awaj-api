@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ActivityTypes extends Model
 {
@@ -12,7 +12,7 @@ class ActivityTypes extends Model
 
     protected $fillable = ['type'];
 
-    public function activityFeeds(): HasOne{
-        return $this->hasOne(ActivityFeeds::class);
+    public function activityFeeds(): HasMany{
+        return $this->hasMany(ActivityFeeds::class);
     }
 }
