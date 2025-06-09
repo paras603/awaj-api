@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class NotificationTypes extends Model
+class NotificationType extends Model
 {
     protected $fillable = [
         'type',
@@ -13,6 +13,6 @@ class NotificationTypes extends Model
 
     public function notification(): HasMany
     {
-        return $this->hasMany(Notifications::class);
+        return $this->hasMany(Notification::class);
     }
 }

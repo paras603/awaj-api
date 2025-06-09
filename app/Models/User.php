@@ -64,11 +64,11 @@ class User extends Authenticatable
 
     public function activityFeed(): HasMany
     {
-        return $this->hasMany(ActivityFeeds::class);
+        return $this->hasMany(ActivityFeed::class);
     }
 
     public function comments(): HasMany
     {
-        return $this->hasMany(Comments::class);
+        return $this->hasMany(Comment::class);
     }
 }

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Connections extends Model
+class Connection extends Model
 {
     protected $fillable = [
         'user_id',

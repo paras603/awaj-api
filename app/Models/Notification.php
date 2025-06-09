@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Notifications extends Model
+class Notification extends Model
 {
     protected $fillable = [
         'receiver_id',
@@ -20,6 +20,6 @@ class Notifications extends Model
 
     public function notificationType(): BelongsTo
     {
-        return $this->belongsTo(NotificationTypes::class);
+        return $this->belongsTo(NotificationType::class);
     }
 }

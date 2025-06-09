@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('content');
+            $table->text('content');
             $table->integer('upvote')->default(0);
             $table->integer('downvote')->default(0);
             $table->foreign('user_id')

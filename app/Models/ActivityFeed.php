@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class ActivityFeeds extends Model
+class ActivityFeed extends Model
 {
+    use HasFactory;
+
     //fields that can be mass assigned
     protected $fillable = [
         'user_id',
@@ -23,7 +26,7 @@ class ActivityFeeds extends Model
 
     public function activityType(): BelongsTo
     {
-        return $this->belongsTo(ActivityTypes::class);
+        return $this->belongsTo(ActivityType::class);
     }
 
     public function post(): BelongsTo

@@ -3,27 +3,25 @@
 namespace Database\Factories;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class PostFactory extends Factory
+class CommentFactory extends Factory
 {
     /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
      */
-
-    protected $model = Post::class;
-
     public function definition(): array
     {
         return [
-            'content' => $this->faker->paragraph(),
-            'upvote' => $this->faker->randomDigit(),
-            'downvote' => $this->faker->randomDigit(),
+            'post_id' => fake()->randomElement(Post::all()->pluck('id')->toArray()),
+            'user_id' => fake()->randomElement(User::all()->pluck('id')->toArray()),
+            'comment' => fake()->text,
             'created_at' => now(),
             'updated_at' => now(),
         ];
