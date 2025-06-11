@@ -25,7 +25,7 @@ class PostsController extends Controller
     public function allPosts()
     {
         return PostsResource::collection(
-            Post::paginate(15)
+            Post::latest()->take(5)->get()
         );
     }
 
@@ -57,7 +57,7 @@ class PostsController extends Controller
      */
     public function show(Post $post)
     {
-        return $this->isNotAuthorized($post) ? $this->isNotAuthorized($post) : new PostsResource($post); 
+        return $this->isNotAuthorized($post) ? $this->isNotAuthorized($post) : new PostsResource($post);
     }
 
     /**

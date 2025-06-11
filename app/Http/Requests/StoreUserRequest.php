@@ -25,7 +25,10 @@ class StoreUserRequest extends FormRequest
         return [
             'username' => ['required', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()]
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'user_type_id' => ['nullable', 'integer', 'exists:user_type,id'],
+            'aura' => ['nullable', 'integer'],
+            'bio' => ['string', 'nullable'],
         ];
     }
 }

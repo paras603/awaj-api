@@ -20,3 +20,4 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::resource('/posts', PostsController::class);
     Route::get('/allPosts', [PostsController::class, 'allPosts']);
 });
+
