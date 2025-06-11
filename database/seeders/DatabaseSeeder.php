@@ -28,7 +28,9 @@ class DatabaseSeeder extends Seeder
             ActivityTypeSeeder::class,
             ActivityFeedSeeder::class,
             CommentSeeder::class,
-
+            ConnectionSeeder::class,
+            NotificationTypeSeeder::class,
+            NotificationSeeder::class,
         ]);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Connection;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,8 @@ class ConnectionFactory extends Factory
     public function definition(): array
     {
         return [
-
+            'user_id' => fake()->randomElement(User::all()->pluck('id')->toArray()),
+            'follower_id' => fake()->randomElement(User::all()->pluck('id')->toArray()),
         ];
     }
 }
