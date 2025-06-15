@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -19,5 +20,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::resource('/posts', PostsController::class);
     Route::get('/allPosts', [PostsController::class, 'allPosts']);
+
+    Route::resource('/comments', CommentController::class);
 });
 
