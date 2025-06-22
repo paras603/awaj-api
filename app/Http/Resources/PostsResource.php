@@ -29,6 +29,7 @@ class PostsResource extends JsonResource
                 'user_email' => $this->user->email,
             ],
             'comments' => CommentResource::collection($this->whenLoaded('comments')),
+            'userInteractions' => PostUserInteractionResource::collection($this->whenLoaded('postUserInteractions')),
         ];
     }
 }
