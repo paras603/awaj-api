@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePostUserInteractionRequest;
 use App\Http\Requests\UpdatePostUserInteractionRequest;
 use App\Http\Resources\PostUserInteractionResource;
+use App\Models\Post;
 use App\Models\PostUserInteraction;
 use App\Traits\HttpResponses;
 
@@ -37,6 +38,12 @@ class PostUserInteractionController extends Controller
               'isBookmarked' => $validated['isBookmarked'] ?? false
           ]
         );
+
+        //update vote count in posts table
+        $post = Post::find($validated['post_id']);
+        if($post){
+            $post->updateVoteCounts();
+        }
 
         return $this->success(
             new PostUserInteractionResource($interaction),
@@ -92,6 +99,11 @@ class PostUserInteractionController extends Controller
             'voteStatus' => $validated['voteStatus'] ?? $interaction->voteStatus,
             'isBookmarked' => $validated['isBookmarked'] ?? $interaction->isBookmarked,
         ]);
+
+        $post = Post::find($postid);
+        if($post){
+            $post->updateVoteCounts();
+        }
 
         // Re-fetch the updated model
         $interaction = PostUserInteraction::where('user_id', $userid)

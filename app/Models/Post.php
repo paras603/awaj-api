@@ -43,4 +43,14 @@ class Post extends Model
     {
         return $this->hasMany(PostUserInteraction::class);
     }
+
+    public function updateVoteCounts(){
+        $upvotes = $this->postUserInteractions()->where('voteStatus', 1)->count();
+        $downvotes = $this->postUserInteractions()->where('voteStatus', -1)->count();
+
+        $this->upvote = $upvotes;
+        $this->downvote = $downvotes;
+
+        $this->save();
+    }
 }
