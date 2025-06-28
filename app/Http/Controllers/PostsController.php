@@ -56,7 +56,8 @@ class PostsController extends Controller
      */
     public function show(Post $post)
     {
-        return $this->isNotAuthorized($post) ? $this->isNotAuthorized($post) : new PostsResource($post);
+        $post->load(['user', 'comments.user', 'postUserInteractions']);
+        return new PostsResource($post);
     }
 
     /**
