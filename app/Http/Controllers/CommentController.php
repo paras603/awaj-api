@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CommentRequest;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\PostsResource;
 use App\Models\Comment;
 use App\Models\Post;
+use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
+    use HttpResponses;
+
     /**
      * Display a listing of the resource.
      */
@@ -19,9 +23,9 @@ class CommentController extends Controller
 //        return CommentResource::collection(
 //          Comment::where('user_id', Auth::user()->id)->get()
 //        );
-        $posts = Post::with(['user', 'comments.user'])->get();
+        $comments = Comment::with(['user', 'post'])->get();
 
-        return PostsResource::collection($posts);
+        return CommentResource::collection($comments);
     }
 
     /**
@@ -35,9 +39,15 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CommentRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $comment = Comment::create($validated);
+
+        $comment = Comment::with(['user', 'post'])->find($comment->id);
+
+        return $this->success(new CommentResource($comment), 'Comment posted successfully.', 201);
     }
 
     /**
@@ -45,7 +55,13 @@ class CommentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $comment = Comment::with(['user', 'post'])->find($id);
+
+        if(!$comment){
+            return $this->error('','Comment not found', 404);
+        }
+
+        return $this->success(new CommentResource($comment), 'Comment retrieved successfully.', 200);
     }
 
     /**
@@ -59,9 +75,13 @@ class CommentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CommentRequest $request, string $id)
     {
-        //
+        $validated = $request->validated();
+        $comment = Comment::findOrFail($id);
+        $comment->update($validated);
+
+        return $this->success(new CommentResource($comment), 'Comment updated successfully.', 200);
     }
 
     /**
@@ -69,6 +89,11 @@ class CommentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $comment = Comment::find($id);
+        if(!$comment){
+            return $this->error('', 'Comment not found', 404);
+        }
+        $comment->delete();
+        return $this->success(null, 'Comment deleted successfully.', 200);
     }
 }
