@@ -79,19 +79,43 @@ class PostUserInteractionController extends Controller
      */
     public function update(UpdatePostUserInteractionRequest $request, string $userid, string $postid)
     {
+        $validated = $request->validated();
+
         $interaction = PostUserInteraction::where('user_id', $userid)
             ->where('post_id', $postid)
             ->first();
 
         if(!$interaction){
-            return $this->error(
-                null,
-                'Interaction not found.',
-                404
+            $interaction = PostUserInteraction::create(
+                [
+                    'post_id' => $postid,
+                    'user_id' => $userid,
+                    'voteStatus' => $validated['voteStatus'] ?? 0,
+                    'isBookmarked' => $validated['isBookmarked'] ?? false
+                ]
+            );
+
+            //update vote count in posts table
+            $post = Post::find($postid);
+            if($post){
+                $post->updateVoteCounts();
+            }
+
+            return $this->success(
+                new PostUserInteractionResource($interaction),
+                'Interaction created successfully.',
+                201
             );
         }
 
-        $validated = $request->validated();
+
+//        $interaction = PostUserInteraction::updateOrCreate(
+//            ['user_id' => $userid, 'post_id' => $postid],
+//            [
+//                'voteStatus' => $validated['voteStatus'] ?? 0,
+//                'isBookmarked' => $validated['isBookmarked'] ?? false
+//            ]
+//        );
 
         PostUserInteraction::where('user_id', $userid)
         ->where('post_id', $postid)
@@ -112,6 +136,8 @@ class PostUserInteractionController extends Controller
 
         return $this->success(
             new PostUserInteractionResource($interaction),
+//            $interaction->wasRecentlyCreated
+//                ? 'Interaction created successfully.' :
             'Interaction updated successfully.',
         );
     }
