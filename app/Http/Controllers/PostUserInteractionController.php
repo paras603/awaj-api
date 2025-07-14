@@ -18,6 +18,8 @@ class PostUserInteractionController extends Controller
     public function index()
     {
         $interactions = PostUserInteraction::all();
+
+
         return $this->success(
             PostUserInteractionResource::collection($interactions),
             'Interactions retrieved successfully.'
@@ -158,4 +160,5 @@ class PostUserInteractionController extends Controller
         return $this->success(null, 'Interaction deleted');
 
     }
+
 }
