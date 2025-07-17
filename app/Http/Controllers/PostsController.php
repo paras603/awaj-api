@@ -43,10 +43,23 @@ class PostsController extends Controller
     {
         $request->validated($request->all());
 
+        $imagePath = null;
+
+        if($request->hasFile('image')) {
+            $imageName = time() . '.' . request()->image->getClientOriginalExtension();
+            request()->image->move(public_path('images'), $imageName);
+            $imagePath = 'images/' . $imageName;
+        }
+
         $post = Post::create([
             'user_id' => Auth::user()->id,
             'content' => $request->content,
+            'image' => $imagePath,
         ]);
+
+        dd(
+            $post,
+        );
 
         return new PostsResource($post);
     }
