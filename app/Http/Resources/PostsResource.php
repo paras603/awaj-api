@@ -19,7 +19,7 @@ class PostsResource extends JsonResource
             'id' => (string)$this->id,
             'attributes' => [
                 'content' => $this->content,
-                'image' =>$this->image,
+                'image_url' =>$this->image ? asset($this->image) : null,
                 'upvote' => $this->upvote,
                 'downvote' => $this->downvote,
                 'created_at' => $this->created_at,

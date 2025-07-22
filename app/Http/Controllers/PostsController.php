@@ -57,10 +57,6 @@ class PostsController extends Controller
             'image' => $imagePath,
         ]);
 
-        dd(
-            $post,
-        );
-
         return new PostsResource($post);
     }
 
