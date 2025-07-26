@@ -18,13 +18,13 @@ class PostsController extends Controller
     public function index()
     {
         return PostsResource::collection(
-            Post::where('user_id', Auth::user()->id)->get()
+            Post::query()->where('user_id', Auth::user()->id)->get()
         );
     }
 
     public function allPosts()
     {
-        $posts = Post::with(['user', 'comments.user', 'postUserInteractions'])->latest()->take(5)->get();
+        $posts = Post::with(['user', 'comments.user', 'postUserInteractions'])->latest()->get();
         return PostsResource::collection($posts);
     }
 
@@ -53,9 +53,11 @@ class PostsController extends Controller
 
         $post = Post::create([
             'user_id' => Auth::user()->id,
-            'content' => $request->content,
+            'content' => $request->input("content"),
             'image' => $imagePath,
         ]);
+
+        $post = Post::where('id', 101)->with('comments')->first();
 
         return new PostsResource($post);
     }

@@ -23,6 +23,7 @@ class CommentController extends Controller
 //        return CommentResource::collection(
 //          Comment::where('user_id', Auth::user()->id)->get()
 //        );
+
         $comments = Comment::with(['user', 'post'])->get();
 
         return CommentResource::collection($comments);

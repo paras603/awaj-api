@@ -21,3 +21,5 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+/public/images/*
+!.gitkeep  # (optional) if you want to keep the folder in Git
