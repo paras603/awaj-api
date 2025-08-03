@@ -81,6 +81,8 @@ class PostUserInteractionController extends Controller
      */
     public function update(UpdatePostUserInteractionRequest $request, string $userid, string $postid)
     {
+
+        //TODO: insted of this i can use updateOrCreate
         $validated = $request->validated();
 
         $interaction = PostUserInteraction::where('user_id', $userid)
