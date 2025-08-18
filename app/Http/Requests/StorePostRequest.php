@@ -26,4 +26,7 @@ class StorePostRequest extends FormRequest
             'image' => ['nullable', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
         ];
     }
+    /**
+     * Custom validation messages
+     */
 }

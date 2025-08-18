@@ -57,7 +57,7 @@ class PostsController extends Controller
             'image' => $imagePath,
         ]);
 
-        $post = Post::where('id', 101)->with('comments')->first();
+        $post->load(['user', 'comments.user', 'postUserInteractions']);
 
         return new PostsResource($post);
     }
