@@ -43,18 +43,19 @@ class PostsController extends Controller
     {
         $request->validated($request->all());
 
-        $imagePath = null;
-
-        if($request->hasFile('image')) {
-            $imageName = time() . '.' . request()->image->getClientOriginalExtension();
-            request()->image->move(public_path('images'), $imageName);
-            $imagePath = 'images/' . $imageName;
+        $images = array();
+        if($files = $request->file('images_')){
+            foreach ($files as $file) {
+                $imageName = time().'.'.$file->getClientOriginalExtension();
+                $file->move(public_path('images'), $imageName);
+                $images[] = $imageName;
+            }
         }
 
         $post = Post::create([
             'user_id' => Auth::user()->id,
             'content' => $request->input("content"),
-            'image' => $imagePath,
+            'images' => implode("|", $images),
         ]);
 
         $post->load(['user', 'comments.user', 'postUserInteractions']);
