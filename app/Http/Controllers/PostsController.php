@@ -46,7 +46,11 @@ class PostsController extends Controller
         $images = array();
         if($files = $request->file('images_')){
             foreach ($files as $file) {
-                $imageName = time().'.'.$file->getClientOriginalExtension();
+                $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $originalExtension = $file->getClientOriginalExtension();
+                $cleanName = preg_replace('/[^A-Za-z0-9\-]/', '_', $originalName);
+
+                $imageName = $cleanName . '-' . time() . '.' . $originalExtension;
                 $file->move(public_path('images'), $imageName);
                 $images[] = $imageName;
             }
