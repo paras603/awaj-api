@@ -30,5 +30,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::patch('interactions/{user_id}/{post_id}', [PostUserInteractionController::class, 'update']);
     Route::delete('interactions/{user_id}/{post_id}', [PostUserInteractionController::class, 'destroy']);
 
+    Route::get('/allProfilePictures', [\App\Http\Controllers\ProfilePicture::class, 'index']);
+
 });
 
