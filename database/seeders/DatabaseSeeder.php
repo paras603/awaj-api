@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             NotificationTypeSeeder::class,
             NotificationSeeder::class,
             PostUserInteractionSeeder::class,
+            ProfilePictureSeeder::class,
         ]);
     }
 }
