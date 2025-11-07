@@ -80,4 +80,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(PostUserInteraction::class);
     }
+
+    public function profilePictures(): HasMany
+    {
+        return $this->hasMany(ProfilePicture::class);
+    }
 }

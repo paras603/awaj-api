@@ -32,6 +32,11 @@ class PostsResource extends JsonResource
                 'id' => (string)$this->user->id,
                 'user_name' => $this->user->username,
                 'user_email' => $this->user->email,
+                'profile_picture' => $this->user->profilePictures
+                    ->sortByDesc('created_at')  // Sort by newest first
+                    ->first()?->image           // Get the "image" field (null-safe)
+                    ? asset('images/' . $this->user->profilePictures->sortByDesc('created_at')->first()->image)
+                    : null,
             ],
             'comments' => CommentResource::collection($this->whenLoaded('comments')),
             'userInteractions' => PostUserInteractionResource::collection($this->whenLoaded('postUserInteractions')),
