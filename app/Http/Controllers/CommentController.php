@@ -24,7 +24,7 @@ class CommentController extends Controller
 //          Comment::where('user_id', Auth::user()->id)->get()
 //        );
 
-        $comments = Comment::with(['user', 'post'])->get();
+        $comments = Comment::with(['user', 'user.latestProfilePicture', 'post'])->get();
 
         return CommentResource::collection($comments);
     }

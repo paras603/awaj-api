@@ -24,7 +24,7 @@ class PostsController extends Controller
 
     public function allPosts()
     {
-        $posts = Post::with(['user', 'comments.user', 'postUserInteractions'])->latest()->get();
+        $posts = Post::with(['user', 'user.latestProfilePicture', 'comments.user', 'comments.user.latestProfilePicture', 'postUserInteractions'])->latest()->get();
         return PostsResource::collection($posts);
     }
 

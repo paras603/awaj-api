@@ -32,9 +32,7 @@ class PostsResource extends JsonResource
                 'id' => (string)$this->user->id,
                 'user_name' => $this->user->username,
                 'user_email' => $this->user->email,
-                'profile_picture' => $this->user->latestProfilePicture
-                    ? asset('images/' . $this->user->latestProfilePicture->image)
-                    : null,
+                'profile_picture' => $this->user->profile_picture_url,
             ],
             'comments' => CommentResource::collection($this->whenLoaded('comments')),
             'userInteractions' => PostUserInteractionResource::collection($this->whenLoaded('postUserInteractions')),

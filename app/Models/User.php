@@ -91,4 +91,13 @@ class User extends Authenticatable
     {
         return $this->hasOne(ProfilePicture::class)->latestOfMany();
     }
+
+    public function getProfilePictureUrlAttribute()
+    {
+        if($this->latestProfilePicture){
+            return asset('images/' . $this->latestProfilePicture->image);
+        }
+
+        return asset('images/default_pp.png');
+    }
 }
