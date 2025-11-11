@@ -16,12 +16,14 @@ class AuthController extends Controller
 
     public function login(LoginUserRequest $request){
         $request->validated($request->all());
-        
+
         if(!Auth::attempt($request->only('email','password'))){
             return $this->error('', 'Credentials do not match', 401);
         }
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::with('latestProfilePicture')
+            ->where('email', $request->email)
+            ->first();
 
         return $this->success([
             'user' => $user,
@@ -47,5 +49,15 @@ class AuthController extends Controller
     public function logout(Request $request){
         Auth::user()->currentAccessToken()->delete();
         return $this->success(null, 'Successfully logged out');
+    }
+
+    public function user(Request $request){
+        $user = Auth::user()->load('latestProfilePicture');
+
+        if($user->latestProfilePicture){
+            $user->latestProfilePicture->image = asset('images/' . $user->latestProfilePicture->image);
+        }
+
+        return $this->success($user, "Successfully retrieved the user's profile");
     }
 }
