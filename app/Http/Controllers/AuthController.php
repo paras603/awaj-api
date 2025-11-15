@@ -52,10 +52,16 @@ class AuthController extends Controller
     }
 
     public function user(Request $request){
-        $user = Auth::user()->load('latestProfilePicture');
+        $user = Auth::user()->load('latestProfilePicture','profilePictures');
 
         if($user->latestProfilePicture){
             $user->latestProfilePicture->image = asset('images/' . $user->latestProfilePicture->image);
+        }
+
+        if($user->profilePictures){
+           foreach ($user->profilePictures as $picture){
+               $picture->image = asset('images/' . $picture->image);
+           }
         }
 
         return $this->success($user, "Successfully retrieved the user's profile");
