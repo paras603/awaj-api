@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Http\Resources\PostsResource;
@@ -25,6 +26,19 @@ class PostsController extends Controller
     public function allPosts()
     {
         $posts = Post::with(['user', 'user.latestProfilePicture', 'comments.user', 'comments.user.latestProfilePicture', 'postUserInteractions'])->latest()->get();
+        return PostsResource::collection($posts);
+    }
+
+    public function userPosts( $userId)
+    {
+//        dd($userId);
+
+        $posts = Post::where('user_id', $userId)
+            ->with(['user', 'user.latestProfilePicture', 'postUserInteractions', 'comments.user'])
+            ->latest()->get();
+
+//        dd($posts);
+
         return PostsResource::collection($posts);
     }
 

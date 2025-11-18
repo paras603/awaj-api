@@ -13,9 +13,4 @@ class Connection extends Model
         'user_id',
         'following_id',
     ];
-
-    public function user(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class);
-    }
 }

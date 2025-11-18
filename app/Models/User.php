@@ -6,6 +6,7 @@ namespace App\Models;
 use Cassandra\Type\UserType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -30,6 +31,8 @@ class User extends Authenticatable
         'password',
         'bio',
     ];
+
+    protected $appends = ['profile_picture_url'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -94,10 +97,22 @@ class User extends Authenticatable
 
     public function getProfilePictureUrlAttribute()
     {
-        if($this->latestProfilePicture){
-            return asset('images/' . $this->latestProfilePicture->image);
+        $latestProfilePicture = $this->latestProfilePicture;
+
+        if($latestProfilePicture){
+            return asset('images/' . $latestProfilePicture->image);
         }
 
         return asset('images/default_pp.png');
+    }
+
+    public function following(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'connections', 'follower_id', 'user_id');
+    }
+
+    public function followers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'connections', 'user_id', 'follower_id');
     }
 }

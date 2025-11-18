@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -16,13 +17,17 @@ Route::get('/user', function (Request $request) {
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
+
 //protected routes
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/auth-user', [AuthController::class, 'user']);
 
+    Route::get('/users/{user}', [UserController::class, 'show']);
+
     Route::resource('/posts', PostsController::class);
     Route::get('/allPosts', [PostsController::class, 'allPosts']);
+    Route::get('/allPosts/{userId}', [PostsController::class, 'userPosts']);
 
     Route::resource('/comments', CommentController::class);
 
