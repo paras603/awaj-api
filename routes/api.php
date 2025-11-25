@@ -12,11 +12,9 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-
 //public routes
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
-
 
 //protected routes
 Route::group(['middleware' => ['auth:sanctum']], function(){
@@ -38,6 +36,11 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::delete('interactions/{user_id}/{post_id}', [PostUserInteractionController::class, 'destroy']);
 
     Route::get('/allProfilePictures', [\App\Http\Controllers\ProfilePicture::class, 'index']);
+
+    //connections
+    Route::post('/follow/{userId}', [\App\Http\Controllers\ConnectionController::class, 'follow']);
+    Route::delete('/unfollow/{userId}', [\App\Http\Controllers\ConnectionController::class, 'unfollow']);
+    Route::get('/followers', [\App\Http\Controllers\ConnectionController::class, 'followers']);
 
 });
 
