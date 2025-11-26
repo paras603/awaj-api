@@ -12,8 +12,6 @@ class ConnectionController extends Controller
     public function follow(Request $request, $user_id)
     {
         $user = auth()->user();
-        $user = User::findOrFail(57)->get();
-        dd($user);
 
         if($user->id == $user_id){
             return $this->error(null, "You can't follow yourself.", 422);
@@ -36,7 +34,16 @@ class ConnectionController extends Controller
     public function followers()
     {
         $user = auth()->user();
-        $followers = $user->following()->pluck('id');
+        $followers = $user->followers()->get();
+
         return $this->success($followers, "followers", 200);
+    }
+
+    public function following()
+    {
+        $user = auth()->user();
+        $following = $user->following()->get();
+
+        return $this->success($following, "following", 200);
     }
 }

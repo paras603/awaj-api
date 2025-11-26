@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\PostUserInteractionController;
+use App\Http\Controllers\ConnectionController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -38,9 +39,9 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/allProfilePictures', [\App\Http\Controllers\ProfilePicture::class, 'index']);
 
     //connections
-    Route::post('/follow/{userId}', [\App\Http\Controllers\ConnectionController::class, 'follow']);
-    Route::delete('/unfollow/{userId}', [\App\Http\Controllers\ConnectionController::class, 'unfollow']);
-    Route::get('/followers', [\App\Http\Controllers\ConnectionController::class, 'followers']);
-
+    Route::post('/follow/{userId}', [ConnectionController::class, 'follow']);
+    Route::delete('/unfollow/{userId}', [ConnectionController::class, 'unfollow']);
+    Route::get('/followers', [ConnectionController::class, 'followers']);
+    Route::get('/following', [ConnectionController::class, 'following']);
 });
 
