@@ -19,7 +19,7 @@ class ConnectionController extends Controller
 
         $user->following()->syncWithoutDetaching([$user_id]);
 
-        return $this->success(['user' => $user->id, 'follows' => $user_id], "Followed.", 200);
+        return $this->success(['user' => $user_id, 'follows' => $user->id], "Followed.", 200);
     }
 
     public function unfollow(Request $request, $user_id)
