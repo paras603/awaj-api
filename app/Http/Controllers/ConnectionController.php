@@ -45,6 +45,7 @@ class ConnectionController extends Controller
         $auth_user->following()->toggle($following_id);
 
         $auth_user->following()->
+// todo: follow and unfollow on toggle
     }
     public function followers()
     {
