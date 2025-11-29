@@ -9,44 +9,57 @@ use Illuminate\Http\Request;
 class ConnectionController extends Controller
 {
     use HttpResponses;
-//    public function follow(Request $request, $user_id)
-//    {
-//        $user = auth()->user();
-//
-//        if($user->id == $user_id){
-//            return $this->error(null, "You can't follow yourself.", 422);
-//        }
-//
-//        $user->following()->syncWithoutDetaching([$user_id]);
-//
-//        return $this->success(['user' => $user_id, 'follows' => $user->id], "Followed.", 200);
-//    }
-//
-//    public function unfollow(Request $request, $user_id)
-//    {
-//        $user = auth()->user();
-//
-//        $user->following()->detach([$user_id]);
-//
-//        return $this->success(null, "Unfollowed.", 200);
-//    }
-
     public function follow(Request $request, $user_id)
     {
-        $auth_user = auth()->user();
-        $following_id = $user_id;
+        $user = auth()->user();
 
-        if($auth_user->id == $following_id) {
-            return $this->error(null,'You cannot follow yourself.', 422);
+        if($user->id == $user_id){
+            return $this->error(null, "You can't follow yourself.", 422);
         }
 
-        $auth_user->following()->toggle($following_id);
+        $user->following()->syncWithoutDetaching([$user_id]);
 
-        $auth_user->following()->toggle($following_id);
-
-        $auth_user->following()->
-// todo: follow and unfollow on toggle
+        return $this->success(['user' => $user_id, 'follows' => $user->id], "Followed.", 200);
     }
+
+    public function unfollow(Request $request, $user_id)
+    {
+        $user = auth()->user();
+
+        $user->following()->detach([$user_id]);
+
+        return $this->success(null, "Unfollowed.", 200);
+    }
+
+    public function followToggle(Request $request, $user_id)
+    {
+        $auth_user = auth()->user();
+
+        if ($auth_user->id == $user_id) {
+            return $this->error(null, 'You cannot follow yourself.', 422);
+        }
+
+        // Toggle follow status (returns array of attached/detached IDs)
+        $result = $auth_user->following()->toggle($user_id);
+
+        if (!empty($result['attached'])) {
+            // User is now followed
+            return $this->success([
+                'user' => $user_id,
+                'follows' => true,
+            ], "Followed.", 200);
+        }
+
+        if (!empty($result['detached'])) {
+            // User is now unfollowed
+            return $this->success([
+                'user' => $user_id,
+                'follows' => false,
+            ], "Unfollowed.", 200);
+        }
+    }
+
+
     public function followers()
     {
         $user = auth()->user();
