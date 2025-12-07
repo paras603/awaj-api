@@ -40,6 +40,7 @@ class ConnectionController extends Controller
         }
 
         // Toggle follow status (returns array of attached/detached IDs)
+        // need to verify which is effective this toggle or with different methods
         $result = $auth_user->following()->toggle($user_id);
 
         if (!empty($result['attached'])) {
