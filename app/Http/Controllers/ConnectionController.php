@@ -35,6 +35,8 @@ class ConnectionController extends Controller
     {
         $auth_user = auth()->user();
 
+        $isFollowing = $auth_user->following()->whereKey($user_id)->exists();
+
         if ($auth_user->id == $user_id) {
             return $this->error(null, 'You cannot follow yourself.', 422);
         }
@@ -47,6 +49,7 @@ class ConnectionController extends Controller
             // User is now followed
             return $this->success([
                 'user' => $user_id,
+                'isFollowing' => $isFollowing,
                 'follows' => true,
             ], "Followed.", 200);
         }
@@ -55,6 +58,7 @@ class ConnectionController extends Controller
             // User is now unfollowed
             return $this->success([
                 'user' => $user_id,
+                'isFollowing' => $isFollowing,
                 'follows' => false,
             ], "Unfollowed.", 200);
         }
@@ -75,5 +79,14 @@ class ConnectionController extends Controller
         $following = $user->following()->get();
 
         return $this->success($following, "following", 200);
+    }
+
+    public function checkFollow($user_id)
+    {
+        $authUser = auth()->user();
+
+        $isFollowing = $authUser->following()->whereKey($user_id)->exists();
+
+        return $this->success($isFollowing, "following", 200);
     }
 }

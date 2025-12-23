@@ -12,6 +12,10 @@ class UserController extends Controller
 
     public function show(User $user)
     {
+        $authUser = auth()->user();
+
+        $isFollowing = $authUser->following()->whereKey($user->id)->exists();
+
         $followerCount = Connection::where('user_id', $user->id)->count();
         $followingCount = Connection::where('follower_id', $user->id)->count();
 
@@ -26,7 +30,8 @@ class UserController extends Controller
         return $this->success([
             'user' => $user,
             'followerCount' => $followerCount,
-            'followingCount' => $followingCount
+            'followingCount' => $followingCount,
+            'isFollowing' => $isFollowing,
         ],"User Profile retrieved successfully");
     }
 }
