@@ -27,6 +27,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::resource('/posts', PostsController::class);
     Route::get('/allPosts', [PostsController::class, 'allPosts']);
     Route::get('/allPosts/{userId}', [PostsController::class, 'userPosts']);
+    Route::get('savedPosts', [PostsController::class, 'savedPosts']);
 
     Route::resource('/comments', CommentController::class);
 
@@ -35,6 +36,8 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('interactions/{user_id}/{post_id}', [PostUserInteractionController::class, 'show']);
     Route::patch('interactions/{user_id}/{post_id}', [PostUserInteractionController::class, 'update']);
     Route::delete('interactions/{user_id}/{post_id}', [PostUserInteractionController::class, 'destroy']);
+
+//    Route::get('/savedPosts', [PostUserInteractionController::class, 'savedPosts']);
 
     Route::get('/allProfilePictures', [\App\Http\Controllers\ProfilePicture::class, 'index']);
 

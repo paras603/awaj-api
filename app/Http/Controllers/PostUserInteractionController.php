@@ -19,12 +19,23 @@ class PostUserInteractionController extends Controller
     {
         $interactions = PostUserInteraction::all();
 
-
         return $this->success(
             PostUserInteractionResource::collection($interactions),
             'Interactions retrieved successfully.'
         );
     }
+
+//    public function savedPosts()
+//    {
+//        $interaction = PostUserInteraction::where('isBookmarked', true)
+//            ->with('user')
+//            ->get();
+//
+//        return $this->success(
+//            PostUserInteractionResource::collection($interaction),
+//            'Saved posts retrieved successfully.'
+//        );
+//    }
 
     /**
      * Store a newly created resource in storage.

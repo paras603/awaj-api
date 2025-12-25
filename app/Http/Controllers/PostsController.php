@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PostUserInteraction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Post;
@@ -27,6 +28,26 @@ class PostsController extends Controller
     {
         $posts = Post::with(['user', 'user.latestProfilePicture', 'comments.user', 'comments.user.latestProfilePicture', 'postUserInteractions'])->latest()->get();
         return PostsResource::collection($posts);
+    }
+
+    public function savedPosts()
+    {
+        $posts = Post::whereHas('postUserInteractions', function ($query) {
+                $query->where('isBookmarked', true)
+                    ->where('user_id', auth()->id());
+            })
+            ->with([
+                'user',
+                'comments',
+                'postUserInteractions' => function ($query) {
+                    $query->where('user_id', auth()->id());
+                }
+            ])
+            ->latest()
+            ->get();
+
+        return PostsResource::collection($posts);
+
     }
 
     public function userPosts( $userId)
