@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -37,8 +38,6 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::patch('interactions/{user_id}/{post_id}', [PostUserInteractionController::class, 'update']);
     Route::delete('interactions/{user_id}/{post_id}', [PostUserInteractionController::class, 'destroy']);
 
-//    Route::get('/savedPosts', [PostUserInteractionController::class, 'savedPosts']);
-
     Route::get('/allProfilePictures', [\App\Http\Controllers\ProfilePicture::class, 'index']);
 
     //connections
@@ -48,5 +47,8 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/checkFollow/{userId}', [ConnectionController::class, 'checkFollow']);
     Route::get('/followers', [ConnectionController::class, 'followers']);
     Route::get('/following', [ConnectionController::class, 'following']);
+
+    //setting
+    Route::post('/settings', [SettingController::class, 'update']);
 });
 
