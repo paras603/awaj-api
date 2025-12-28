@@ -50,5 +50,6 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 
     //setting
     Route::post('/settings', [SettingController::class, 'update']);
+    Route::get('/settings', [SettingController::class, 'show']);
 });
 

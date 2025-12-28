@@ -25,6 +25,7 @@ class UpdateSettingRequest extends FormRequest
             'username' => 'nullable|string|max:255|unique:users,username',
             'bio' => 'nullable|string',
             'email' => 'nullable|email|max:255|unique:users,email',
+            'latest_profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         ];
     }
 }
