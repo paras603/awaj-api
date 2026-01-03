@@ -131,10 +131,6 @@ class PostsController extends Controller
         $post->update($request->all());
 
         return new PostsResource($post);
-
-            //     return $this->isNotAuthorized($post)
-            // ? $this->isNotAuthorized($post)
-            // : new PostsResource($post->update($request->all()));
     }
 
     /**
