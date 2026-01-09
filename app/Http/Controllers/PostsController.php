@@ -130,6 +130,8 @@ class PostsController extends Controller
 
         $post->update($request->all());
 
+        dd($post);
+
         return new PostsResource($post);
     }
 
